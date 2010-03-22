@@ -30,11 +30,11 @@ $count = count($language_hints);
 
 foreach ($language_hints as $string) {
 	$comma = ($i != $count) ? ',' : '';
-	$click_order .= "<span class=\"visualCaptchaLanguageHint hintNumber$i\">$string$comma</span>";
+	$click_order .= "<span class=\"visual_captcha_languagehint hintnumber$i\">$string$comma</span>";
 	$i++;
 }
 
-$selection = '<ul class="visualCaptchaChoices">';
+$selection = '<ul class="visual_captcha_choices clearfloat">';
 
 foreach ($images as $image) {
 	$url = $image->getImgURL($captcha->token);
@@ -45,13 +45,13 @@ foreach ($images as $image) {
 
 $selection .= '</ul>';
 
-$reset_link = "<a class=\"visualCaptchaReset\">" . elgg_echo('visual_captcha:reset_images') . '</a>';
+$reset_link = "<a class='visual_captcha_reset'>" . elgg_echo('visual_captcha:reset_images') . '</a>';
 
 ?>
 
-<div class="visualCaptcha" id="<?php echo $captcha->token; ?>">
-	<h2><?php echo elgg_echo('visual_captcha:enter_captcha'); ?></h2>
-	<h3><?php echo $click_order?></h3>
+<div class="visual_captcha" id="<?php echo $captcha->token; ?>">
+	<label><?php echo elgg_echo('visual_captcha:enter_captcha'); ?><br />
+	<?php echo $click_order?></label>
 	<?php echo $reset_link; ?>
 	<?php echo $selection; ?>
 	<?php echo $instance_token_field; ?>
@@ -65,7 +65,7 @@ $(document).ready(function() {
 	var clickOrderTokens = [];
 	var numClicked = 0;
 
-	$('#' + token + ' ul.visualCaptchaChoices li a img').click(function() {
+	$('#' + token + ' ul.visual_captcha_choices li a img').click(function() {
 		// you lie, jQuery docs. This is supposed to return an empty string
 		// if it's not been set...
 		clicked = $(this).data('clicked');
@@ -73,25 +73,17 @@ $(document).ready(function() {
 
 		if (!clicked && numClicked++ < imgMax) {
 			// mark as clicked
-			// save style info for reset
-			$(this).data('clicked', true)
-				.data('background-color', $(this).css('background-color'))
-				.data('-moz-border-radius', $(this).css('-moz-border-radius', 8))
-				.data('-webkit-border-radius', $(this).css('-webkit-border-radius', 8));
-
-			$(this).css('background-color', '#FFFF66')
-				.css('-moz-border-radius', 8)
-				.css('-webkit-border-radius', 8);
+			$(this).data('clicked', true).addClass('clicked');			
 
 			// mark off language hint
-			$('#' + token + ' .hintNumber' + numClicked).css('text-decoration', 'line-through');
+			$('#' + token + ' .hintnumber' + numClicked).css('text-decoration', 'line-through');
 
 			// set click order
 			clickOrderTokens.push($(this).attr('id'));
 
 			// grey out other choices when at max
 			if (numClicked == imgMax) {
-				$('#' + token + ' ul.visualCaptchaChoices li a img').each(function(i, e) {
+				$('#' + token + ' ul.visual_captcha_choices li a img').each(function(i, e) {
 					clicked = $(e).data('clicked');
 					clicked = (typeof clicked == 'undefined') ? false : clicked;
 
@@ -104,21 +96,18 @@ $(document).ready(function() {
 	});
 
 	// reset all attributes
-	$('#' + token + ' .visualCaptchaReset').click(function() {
+	$('#' + token + ' .visual_captcha_reset').click(function() {
 		numClicked = 0;
 		clickOrderTokens = [];
-		$('#' + token + ' .visualCaptchaLanguageHint').css('text-decoration', 'inherit');
+		$('#' + token + ' .visual_captcha_languagehint').css('text-decoration', 'inherit');
 
-		$('#' + token + ' ul.visualCaptchaChoices li a img').each(function(i, e) {
+		$('#' + token + ' ul.visual_captcha_choices li a img').each(function(i, e) {
 			clicked = $(e).data('clicked');
 			clicked = (typeof clicked == 'undefined') ? false : clicked;
 			$(e).css('opacity', 1);
 
 			if (clicked) {
-				$(e).data('clicked', false);
-				$(e).css('background-color', $(e).data('background-color'))
-					.css('-moz-border-radius', $(e).data('-moz-border-radius'))
-					.css('-webkit-border-radius', $(e).data('-webkit-border-radius'));
+				$(e).data('clicked', false).removeClass('clicked');
 			}
 		});
 	});

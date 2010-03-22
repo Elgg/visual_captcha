@@ -10,23 +10,27 @@
  */
 
 ?>
-
-ul.visualCaptchaChoices li {
-	float: left;
-	padding: 7px;
-	list-style-type: none;
-}
-
-.visualCaptcha {
-	text-align: center;
-}
-
-.visualCaptcha a{
+.visual_captcha a {
 	cursor: pointer;
 	border: 0;
 }
-
-.visualCaptchaLanguageHint {
-	font-size: large;
-	padding: .25em;
+.visual_captcha_languagehint {
+	padding-right: 0.5em;
+	color:#0054A7;
+}
+.visual_captcha_choices {
+	margin-top:5px;
+}
+ul.visual_captcha_choices li {
+	float: left;
+	padding: 2px 4px 2px 0;
+	list-style-type: none;
+}
+ul.visual_captcha_choices li img {
+	padding: 2px;
+}
+ul.visual_captcha_choices li img.clicked {
+	background-color: #4690D6;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;	
 }
