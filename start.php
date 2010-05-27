@@ -79,6 +79,9 @@ function visual_captcha_runonce() {
 
 	while (FALSE !== ($file = readdir($handle))) {
 		if ($file != '.' && $file != '..') {
+			if (!substr_count($file, '.png')) {
+				continue;
+			}
 			$location = $img_dir . $file;
 			$hint = strtolower(str_replace('.png', '', $file));
 
