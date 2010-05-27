@@ -33,6 +33,9 @@ function visual_captcha_init() {
 
 	// clean out our unused captchas during cron garbage collection
 	register_plugin_hook('gc', 'system', 'visual_captcha_gc');
+	
+	// register Walled Garden public pages
+	register_plugin_hook('public_pages', 'walled_garden', 'visual_captcha_public_pages');
 
 	// Emit a hook to grab a list of actions to intecept,
 	// then register a that action with our captcha verification function
@@ -201,6 +204,11 @@ function visual_captcha_actionlist_hook($hook, $entity_type, $returnvalue, $para
 	$returnvalue[] = 'user/requestnewpassword';
 
 	return $returnvalue;
+}
+
+function visual_captcha_public_pages($hook, $type, $return_value, $params) {
+	$return_value[] = 'pg/vc_image/[a-z0-9]+\.png';
+	return $return_value;
 }
 
 register_elgg_event_handler('init', 'system', 'visual_captcha_init');
