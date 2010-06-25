@@ -7,4 +7,5 @@
 	<field key="copyright" value="(C) Brett Profitt 2008-2009" />
 	<field key="licence" value="GNU Public License version 2" />
 	<field key="elgg_version" value="2010010501" />
+	<field key="elgg_install_state" value="enabled" />
 </plugin_manifest>
