@@ -66,8 +66,10 @@ function visual_captcha_runonce() {
 		'limit' => 100
 	));
 
-	foreach ($images as $image) {
-		$image->delete();
+	if ($images) {
+		foreach ($images as $image) {
+			$image->delete();
+		}
 	}
 
 	// register an image
